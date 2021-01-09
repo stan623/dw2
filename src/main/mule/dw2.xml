@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="3c472589-1718-4aaa-83b0-907624777e1b" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="dw2Flow" doc:id="42f2523a-4809-4142-b926-c2fc9f78f000" >
+		<http:listener doc:name="Listener" doc:id="470afa81-b9fd-48a8-836b-e745157650f2" config-ref="HTTP_Listener_config" path="/meta"/>
+		<ee:transform doc:name="Transform Message" doc:id="dba483ea-1174-4290-b43f-38c4e60490a7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+var skills = 'Java,Anypoint' 
+output application/json
+type AUD = String {format: "\$###,###.00"}
+type AEDT = String {format: 'dd/MM/yyyy HH:mm'}
+---
+payload map(data,index)-> {
+Role: data.Role,
+Salary: data.Salary	as String {format: "\$###,###.00"},
+ClosedDate: data.ClosedDate as Date {format: 'yyyy-MM-dd'} as String {format: 'dd-MM-yyyy'},
+"Current Date": now(),
+"Mod Date": now() as String {format: 'dd/MM/yyyy HH:mm'},
+"Current Date Time": now() as LocalDateTime ,
+"EST": now()>> "EST",
+"Required Skills": if (data.Role == "Mulesoft Developer")  skills else "Not Required",
+"AUD": data.Salary as AUD,
+"Aussie DT": now() as AEDT,
+"Location": data.Location default "Unknown",
+"Bonus": (data.Bonus replace "\$" with '') as Number as String {format: "#,###"} 
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dw2Flow1" doc:id="d20ee31d-73b0-4060-8f9d-7a3b8fe7e438" >
+		<ee:transform doc:name="Transform Message" doc:id="b2a3e872-c5e8-4f08-bc6a-6f2f7322d771" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/java
+---
+payload.family.*member map {
+	lastName: $."last-name",
+	firstName: $["first-name"],
+	age:      $.age,
+	"Can vote": $.@can_vote
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dw2Flow2" doc:id="90551d2c-9dea-4094-b178-1baf5bcd8171" >
+		<ee:transform doc:name="Transform Message" doc:id="972f5159-4c3d-48fc-a782-d9a070f36bb7" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/xml
+---
+books:
+{
+	book: payload.bookstore.*book filter ($.year>2003) distinctBy $ map ((data,index)->
+	{
+		name: data.title,
+		author: data.author,
+		cost: data.price,
+		year: data.year
+	}
+	)	orderBy $.author[-1],
+	total : payload.bookstore.*book filter ($.year>2003) distinctBy $ reduce ((bk,sum=0)-> sum+bk.price)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+	<flow name="dw2Flow3" doc:id="673e04bc-9119-4de1-b486-52d88d794660" >
+		<ee:transform doc:name="Transform Message" doc:id="494084e7-95ca-4c35-b4a2-2f38cbe336f9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+var name="Kaye"
+var age=40
+var empObject = {
+	"empID": 12345,
+	"empFirstName" : "Jeremy",
+	"empLastName": "Tan",
+	"empStatus": "Permanent"
+}
+var empArray = ["Sebastian","Jeremy","Karine"]
+---
+{
+	name: name,
+	name2: empObject.empFirstName ++ ' ' ++ empObject.empLastName,
+	Status: empObject.empStatus,
+	"less than 40": age < 40,
+	"++ Operator": empArray ++ ["Brendan"]
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

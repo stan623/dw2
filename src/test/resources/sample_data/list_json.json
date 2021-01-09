@@ -1,0 +1,17 @@
+[
+  {
+     "Role" : "Mulesoft Developer",
+     "Company": "Mulesoft",
+     "Salary": 190000,
+     "ClosedDate": "2021-01-10",
+     "Bonus": "$3500"
+  },
+  {
+     "Role" : "Mulesoft Architect",
+     "Company": "Mulesoft",
+     "Salary": 210000,
+     "Location": "Canada",
+     "ClosedDate": "2021-01-12",
+     "Bonus": "$5200"
+  }
+]

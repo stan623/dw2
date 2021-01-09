@@ -1,0 +1,10 @@
+{
+  "sampleData": {
+    "dba483ea-1174-4290-b43f-38c4e60490a7": {
+      "payload": "sample_data/list_json.json"
+    },
+    "972f5159-4c3d-48fc-a782-d9a070f36bb7": {
+      "payload": "sample_data/bookstore.xml"
+    }
+  }
+}

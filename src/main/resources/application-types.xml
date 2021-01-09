@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="JobOpenings" format="json">
+      <types:shape format="weave" example="examples/Vacancy.json"><![CDATA[%dw 2.0
+
+type JobOpenings = Array<{|  Role: String,   Company: String,   Salary: Number {"typeId": "int"},   Location: String,   ClosedDate: String|}> {"example": "[{\\\"Role\\\":\\\"Mulesoft Developer\\\",\\\"Company\\\":\\\"Mulesoft\\\",\\\"Salary\\\":190000,\\\"Location\\\":\\\"Canada\\\",\\\"ClosedDate\\\":\\\"2021-01-10\\\"},{\\\"Role\\\":\\\"Mulesoft Architect\\\",\\\"Company\\\":\\\"Mulesoft\\\",\\\"Salary\\\":210000,\\\"Location\\\":\\\"Canada\\\",\\\"ClosedDate\\\":\\\"2021-01-12\\\"}]"}
+
+]]></types:shape>
+    </types:type>
+    <types:type name="family" format="xml">
+      <types:example format="xml" element="{http://training.mulesoft.com/simspons}family" location="examples/family.xml"/>
+    </types:type>
+    <types:type name="bookstore" format="xml">
+      <types:example format="xml" element="bookstore" location="examples/bookstore.xml"/>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#dba483ea-1174-4290-b43f-38c4e60490a7">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="JobOpenings"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#470afa81-b9fd-48a8-836b-e745157650f2">
+    <types:processor-declaration>
+      <types:output-event>
+        <types:message>
+          <types:payload type="JobOpenings"/>
+        </types:message>
+      </types:output-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#b2a3e872-c5e8-4f08-bc6a-6f2f7322d771">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="family"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#972f5159-4c3d-48fc-a782-d9a070f36bb7">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="bookstore"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+</types:mule>

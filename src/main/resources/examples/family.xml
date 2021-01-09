@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<simpsons:family xmlns:simpsons="http://training.mulesoft.com/simspons">
+  <simpsons:member can_vote="true">
+    <simpsons:last-name>Simpson</simpsons:last-name>
+    <simpsons:first-name>Homer</simpsons:first-name>
+    <simpsons:age>39</simpsons:age>
+  </simpsons:member>
+  <simpsons:member can_vote="false">
+    <simpsons:last-name>Simpson</simpsons:last-name>
+    <simpsons:first-name>Lisa</simpsons:first-name>
+    <simpsons:age>8</simpsons:age>
+  </simpsons:member>
+  <simpsons:member can_vote="false">
+    <simpsons:last-name>Simpson</simpsons:last-name>
+    <simpsons:first-name>Bart</simpsons:first-name>
+    <simpsons:age>10</simpsons:age>
+  </simpsons:member>
+  <simpsons:member can_vote="true">
+    <simpsons:last-name>Simpson</simpsons:last-name>
+    <simpsons:first-name>Marge</simpsons:first-name>
+    <simpsons:age>36</simpsons:age>
+  </simpsons:member>
+  <simpsons:member can_vote="false">
+    <simpsons:last-name>Simpson</simpsons:last-name>
+    <simpsons:first-name>Maggie</simpsons:first-name>
+    <simpsons:age>1</simpsons:age>
+  </simpsons:member>
+</simpsons:family>
